@@ -8,10 +8,10 @@ services:
         - "5432:5432"
       environment:
         POSTGRES_PASSWORD: mbafiap2021
-   rabbitmq:
+   mensageria:
       container_name: rabbitmq
       restart: always
-      build: ./rabbit
+      build: ./mensageria
       ports:
          - "5672:5672"
          - "15672:15672"
@@ -21,47 +21,79 @@ services:
       ports:
          - "80:80"
       depends_on:
-         - app1
-         - app2
-   redis:
-      container_name: redis
+         - myapp1
+         - myapp2
+         - myapp3
+         - myapp4
+   redis-one:
+      container_name: redis-one
       restart: always
-      build: ./redis1
+      build: ./redis-one
       ports:
       - "6379:6379"
-   redis2:
-      container_name: redis2
+   secundaryredis:
+      container_name: secundaryredis
       restart: always
-      build: ./redis2
+      build: ./secundaryredis
       ports:
       - "6380:6379"
-   app1:
-      container_name: netflixapi
-      build: ./app1
+   myapp1:
+      container_name: myapp1
+      build: ./myapp1
       ports:
         - "5001:9000"
       depends_on:
          - db
-         - rabbitmq
-         - redis
-         - redis2
+         - mensageria
+         - redis-one
+         - secundaryredis
       links:
          - db
-         - rabbitmq
-         - redis
-         - redis2
-   app2:
-      container_name: netflixapi2
-      build: ./app2
+         - mensageria
+         - redis-one
+         - secundaryredis
+   myapp2:
+      container_name: myapp2
+      build: ./myapp2
       ports:
-         - "5002:9000"
+        - "5002:9000"
       depends_on:
          - db
-         - rabbitmq
-         - redis
-         - redis2
+         - mensageria
+         - redis-one
+         - secundaryredis
       links:
          - db
-         - rabbitmq
-         - redis
-         - redis2
+         - mensageria
+         - redis-one
+         - secundaryredis
+   myapp3:
+      container_name: myapp3
+      build: ./myapp3
+      ports:
+        - "5003:9000"
+      depends_on:
+         - db
+         - mensageria
+         - redis-one
+         - secundaryredis
+      links:
+         - db
+         - mensageria
+         - redis-one
+         - secundaryredis
+   myapp4:
+      container_name: myapp4
+      build: ./myapp4
+      ports:
+        - "5004:9000"
+      depends_on:
+         - db
+         - mensageria
+         - redis-one
+         - secundaryredis
+      links:
+         - db
+         - mensageria
+         - redis-one
+         - secundaryredis

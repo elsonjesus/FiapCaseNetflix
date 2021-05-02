@@ -18,3 +18,4 @@ thumbs/
 _thumbs/
 */expressionengine/cache/*
 
+/mavenproject1/target/

@@ -1,2 +1,2 @@
 FROM postgres
-ADD ./dumpnetflix.sql /docker-entrypoint-initdb.d
+ADD ./dumpnetflixAppdatabase.sql /docker-entrypoint-initdb.d
